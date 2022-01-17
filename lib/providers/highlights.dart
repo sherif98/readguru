@@ -29,4 +29,22 @@ class Highlights with ChangeNotifier {
     _highlights = loadedHighlights;
     notifyListeners();
   }
+
+  Future<void> addHighlight(Highlight highlight) async {
+    var url = Uri.parse(
+        'https://93c80r83j5.execute-api.us-east-1.amazonaws.com/dev/highlights/1');
+    try {
+      final response = await http.post(url,
+          body: json.encode({
+            'highlightData': highlight.data,
+            'titleName': highlight.title,
+          }));
+      print(response.body);
+      _highlights.add(highlight);
+      notifyListeners();
+      print(_highlights);
+    } catch (error) {
+      print(error);
+    }
+  }
 }

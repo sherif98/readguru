@@ -4,7 +4,7 @@ import 'package:readguru/providers/highlights.dart';
 import 'package:readguru/widgets/highlight.dart';
 
 class HighlighsFeedScreen extends StatefulWidget {
-  static const routeName = '/show-highlights';
+  static const routeName = '/highlights-feed';
   const HighlighsFeedScreen({Key? key}) : super(key: key);
 
   @override
