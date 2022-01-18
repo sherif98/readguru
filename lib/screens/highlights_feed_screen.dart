@@ -32,28 +32,29 @@ class _HighlighsFeedScreenState extends State<HighlighsFeedScreen> {
         title: Text('Highlights Feed'),
       ),
       body: FutureBuilder(
-          future: _highlightsFuture,
-          builder: (ctx, highlightsData) {
-            if (highlightsData.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (highlightsData.hasError) {
-              return Center(
-                child: Text('An error occurred ${highlightsData.error}'),
-              );
-            }
-
-            return Consumer<Highlights>(
-              builder: (ctx, data, _) => ListView.builder(
-                itemCount: data.highlights.length,
-                itemBuilder: (ctx, idx) => Highlight(
-                  data.highlights[idx].id,
-                  data.highlights[idx].title,
-                  data.highlights[idx].data,
-                ),
-              ),
+        future: _highlightsFuture,
+        builder: (ctx, highlightsData) {
+          if (highlightsData.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (highlightsData.hasError) {
+            return Center(
+              child: Text('An error occurred ${highlightsData.error}'),
             );
-          }),
+          }
+
+          return Consumer<Highlights>(
+            builder: (ctx, data, _) => ListView.builder(
+              itemCount: data.highlights.length,
+              itemBuilder: (ctx, idx) => Highlight(
+                data.highlights[idx].id,
+                data.highlights[idx].title,
+                data.highlights[idx].data,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

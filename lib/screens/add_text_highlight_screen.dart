@@ -70,39 +70,43 @@ class _AddTextHighlightScreenState extends State<AddTextHighlightScreen> {
                           return const CircularProgressIndicator();
                         }
                         return Consumer<Titles>(
-                            builder: (ctx, data, _) =>
-                                DropdownButtonFormField<String>(
-                                  hint: Text('Choose a title'),
-                                  items: data.titles.map((e) {
-                                    return DropdownMenuItem<String>(
-                                      child: Text(e.titleName),
-                                      value: e.titleName,
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {},
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please choose a title';
-                                    }
-                                    return null;
-                                  },
-                                  onSaved: (value) {
-                                    _highlight = Highlight(
-                                      id: _highlight.id,
-                                      title: value!,
-                                      data: _highlight.data,
-                                    );
-                                  },
-                                ));
+                          builder: (ctx, data, _) =>
+                              DropdownButtonFormField<String>(
+                            hint: Text('Choose a title'),
+                            items: data.titles.map((e) {
+                              return DropdownMenuItem<String>(
+                                child: Text(e.titleName),
+                                value: e.titleName,
+                              );
+                            }).toList(),
+                            onChanged: (value) {},
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please choose a title';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _highlight = Highlight(
+                                id: _highlight.id,
+                                title: value!,
+                                data: _highlight.data,
+                              );
+                            },
+                          ),
+                        );
                       },
                     ),
-                    OutlineButton(
+                    OutlinedButton(
                       child: Text(
                         'Create new title',
                         style: TextStyle(fontSize: 15),
                       ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
                       onPressed: () {
                         Navigator.of(context)
                             .pushNamed(AddTitleScreen.routeName);

@@ -47,4 +47,8 @@ class Highlights with ChangeNotifier {
       print(error);
     }
   }
+
+  List<Highlight> getHighlightsForTitle(String title) {
+    return _highlights.where((element) => element.title == title).toList();
+  }
 }
