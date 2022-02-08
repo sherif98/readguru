@@ -4,6 +4,7 @@ import 'package:readguru/providers/highlights.dart';
 import 'package:readguru/providers/titles.dart';
 import 'package:readguru/screens/add_text_highlight_screen.dart';
 import 'package:readguru/screens/add_title_screen.dart';
+import 'package:readguru/screens/daily_highlights_review_screen.dart';
 import 'package:readguru/screens/highlights_feed_screen.dart';
 import 'package:readguru/screens/list_titles_screen.dart';
 import 'package:readguru/screens/tabs_screen.dart';
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
           AddTitleScreen.routeName: (_) => AddTitleScreen(),
           ListTitlesScreen.routeName: (_) => ListTitlesScreen(),
           TitleHighlightsScreen.routeName: (_) => TitleHighlightsScreen(),
+          DailyHighlightsReviewScreen.routeName: (_) =>
+              DailyHighlightsReviewScreen(),
         },
       ),
     );

@@ -14,8 +14,9 @@ class SearchScreen extends StatelessWidget {
               Icon(Icons.search),
               Expanded(
                 child: TextField(
-                  decoration:
-                      InputDecoration(label: Text('Search for a highlight')),
+                  decoration: InputDecoration(
+                    label: Text('Search for a highlight'),
+                  ),
                 ),
               ),
             ],

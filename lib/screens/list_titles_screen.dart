@@ -34,7 +34,7 @@ class _ListTitlesScreenState extends State<ListTitlesScreen> {
         future: _titlesFuture,
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
           return Consumer<Titles>(
             builder: (ctx, data, _) => ListView.builder(
@@ -58,7 +58,7 @@ class _ListTitlesScreenState extends State<ListTitlesScreen> {
                 onTap: () {
                   Navigator.of(context).pushNamed(
                       TitleHighlightsScreen.routeName,
-                      arguments: data.titles[idx].titleName);
+                      arguments: data.titles[idx]);
                 },
               ),
             ),

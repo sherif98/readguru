@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readguru/providers/highlight.dart';
 import 'package:readguru/providers/highlights.dart';
-import 'package:readguru/providers/titles.dart';
+import 'package:readguru/providers/titles.dart' as titles;
 import 'package:readguru/screens/add_title_screen.dart';
 
 class AddTextHighlightScreen extends StatefulWidget {
@@ -15,11 +15,12 @@ class AddTextHighlightScreen extends StatefulWidget {
 
 class _AddTextHighlightScreenState extends State<AddTextHighlightScreen> {
   final _form = GlobalKey<FormState>();
-  var _highlight = Highlight(id: '', data: '', title: '');
+  var _highlight = Highlight(id: '', data: '', titleId: '', titleName: '');
   late Future _titlesFuture;
 
   Future fetchTitles() {
-    return Provider.of<Titles>(context, listen: false).fetchAndSetTitles();
+    return Provider.of<titles.Titles>(context, listen: false)
+        .fetchAndSetTitles();
   }
 
   @override
@@ -69,19 +70,19 @@ class _AddTextHighlightScreenState extends State<AddTextHighlightScreen> {
                             ConnectionState.waiting) {
                           return const CircularProgressIndicator();
                         }
-                        return Consumer<Titles>(
+                        return Consumer<titles.Titles>(
                           builder: (ctx, data, _) =>
-                              DropdownButtonFormField<String>(
+                              DropdownButtonFormField<titles.Title>(
                             hint: Text('Choose a title'),
                             items: data.titles.map((e) {
-                              return DropdownMenuItem<String>(
+                              return DropdownMenuItem<titles.Title>(
                                 child: Text(e.titleName),
-                                value: e.titleName,
+                                value: e,
                               );
                             }).toList(),
                             onChanged: (value) {},
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (value == null) {
                                 return 'Please choose a title';
                               }
                               return null;
@@ -89,7 +90,8 @@ class _AddTextHighlightScreenState extends State<AddTextHighlightScreen> {
                             onSaved: (value) {
                               _highlight = Highlight(
                                 id: _highlight.id,
-                                title: value!,
+                                titleId: value!.id,
+                                titleName: value.titleName,
                                 data: _highlight.data,
                               );
                             },
@@ -127,7 +129,8 @@ class _AddTextHighlightScreenState extends State<AddTextHighlightScreen> {
                       onSaved: (value) {
                         _highlight = Highlight(
                           id: _highlight.id,
-                          title: _highlight.title,
+                          titleId: _highlight.titleId,
+                          titleName: _highlight.titleName,
                           data: value!,
                         );
                       },

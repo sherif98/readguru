@@ -5,12 +5,12 @@ enum HighlightAction {
   AddTag,
 }
 
-class Highlight extends StatelessWidget {
+class HighlightCard extends StatelessWidget {
   final String id;
   final String title;
   final String data;
 
-  Highlight(this.id, this.title, this.data);
+  HighlightCard(this.id, this.title, this.data);
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readguru/providers/highlights.dart';
-import 'package:readguru/widgets/highlight.dart';
+import 'package:readguru/widgets/highlight_card.dart';
 
 class HighlighsFeedScreen extends StatefulWidget {
   static const routeName = '/highlights-feed';
@@ -46,9 +46,9 @@ class _HighlighsFeedScreenState extends State<HighlighsFeedScreen> {
           return Consumer<Highlights>(
             builder: (ctx, data, _) => ListView.builder(
               itemCount: data.highlights.length,
-              itemBuilder: (ctx, idx) => Highlight(
+              itemBuilder: (ctx, idx) => HighlightCard(
                 data.highlights[idx].id,
-                data.highlights[idx].title,
+                data.highlights[idx].titleName,
                 data.highlights[idx].data,
               ),
             ),
