@@ -15,7 +15,15 @@ class AddTextHighlightScreen extends StatefulWidget {
 
 class _AddTextHighlightScreenState extends State<AddTextHighlightScreen> {
   final _form = GlobalKey<FormState>();
-  var _highlight = Highlight(id: '', data: '', titleId: '', titleName: '');
+  var _highlight = Highlight(
+    id: 0,
+    data: '',
+    titleId: 0,
+    titleName: '',
+    author: '',
+    tags: [],
+    isFavorite: false,
+  );
   late Future _titlesFuture;
 
   Future fetchTitles() {
@@ -93,6 +101,9 @@ class _AddTextHighlightScreenState extends State<AddTextHighlightScreen> {
                                 titleId: value!.id,
                                 titleName: value.titleName,
                                 data: _highlight.data,
+                                author: _highlight.author,
+                                tags: [],
+                                isFavorite: false,
                               );
                             },
                           ),
@@ -131,7 +142,10 @@ class _AddTextHighlightScreenState extends State<AddTextHighlightScreen> {
                           id: _highlight.id,
                           titleId: _highlight.titleId,
                           titleName: _highlight.titleName,
+                          author: _highlight.author,
                           data: value!,
+                          tags: [],
+                          isFavorite: false,
                         );
                       },
                     ),

@@ -2,30 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readguru/providers/highlight.dart';
 import 'package:readguru/providers/highlights.dart';
-import 'package:readguru/providers/titles.dart' as titles;
+import 'package:readguru/providers/tags.dart';
 import 'package:readguru/widgets/highlight_card.dart';
 
-class TitleHighlightsScreen extends StatefulWidget {
-  static const routeName = '/title-detail';
-  const TitleHighlightsScreen({Key? key}) : super(key: key);
+class TagHighlightsScreen extends StatelessWidget {
+  static const routeName = '/tag-detail';
 
-  @override
-  _TitleHighlightsScreenState createState() => _TitleHighlightsScreenState();
-}
+  const TagHighlightsScreen({Key? key}) : super(key: key);
 
-class _TitleHighlightsScreenState extends State<TitleHighlightsScreen> {
   @override
   Widget build(BuildContext context) {
-    final titles.Title title =
-        ModalRoute.of(context)!.settings.arguments as titles.Title;
-
+    final Tag tag = ModalRoute.of(context)!.settings.arguments as Tag;
     return Scaffold(
       appBar: AppBar(
-        title: Text(title.titleName),
+        title: Text(tag.id),
       ),
       body: FutureBuilder(
         future: Provider.of<Highlights>(context, listen: false)
-            .getHighlightsForTitle(title.id),
+            .getHighlightsForTag(tag.id),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

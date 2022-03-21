@@ -12,7 +12,7 @@ class AddTitleScreen extends StatefulWidget {
 
 class _AddTitleScreenState extends State<AddTitleScreen> {
   final _form = GlobalKey<FormState>();
-  var _title = titles.Title(id: '', author: '', titleName: '');
+  var _title = titles.Title(id: 0, author: '', titleName: '');
 
   void _saveForm() async {
     final isValid = _form.currentState!.validate();
@@ -28,7 +28,7 @@ class _AddTitleScreenState extends State<AddTitleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Text Highlight'),
+        title: Text('Create Title'),
         actions: [
           IconButton(
             onPressed: () {
@@ -59,6 +59,7 @@ class _AddTitleScreenState extends State<AddTitleScreen> {
                         return null;
                       },
                       onSaved: (value) {
+                        print(value);
                         _title = titles.Title(
                           id: _title.id,
                           titleName: value!,
@@ -92,7 +93,9 @@ class _AddTitleScreenState extends State<AddTitleScreen> {
             Container(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: _saveForm, child: Text('Save Title')),
+                onPressed: _saveForm,
+                child: Text('Save Title'),
+              ),
             ),
           ],
         ),

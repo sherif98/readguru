@@ -1,73 +1,104 @@
 import 'package:flutter/material.dart';
-
-enum HighlightAction {
-  CopyText,
-  AddTag,
-}
+import 'package:provider/provider.dart';
+import 'package:readguru/providers/highlight.dart';
+import 'package:readguru/providers/highlights.dart';
+import 'package:readguru/widgets/detailed_highlight_card.dart';
+import 'package:readguru/widgets/highlight_card_tile.dart';
 
 class HighlightCard extends StatelessWidget {
-  final String id;
-  final String title;
-  final String data;
+  // final int id;
+  // final String title;
+  // final String data;
 
-  HighlightCard(this.id, this.title, this.data);
+  // HighlightCard(this.id, this.title, this.data);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      elevation: 4,
-      margin: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(
-              title,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            subtitle: Text('Sherif Eid'),
-            leading: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-              ),
-              child: Image.network(
-                'https://st2.depositphotos.com/1069290/5358/v/950/depositphotos_53581759-stock-illustration-book-icon-vector-logo.jpg',
-                width: 50,
-                fit: BoxFit.cover,
-                height: 50,
-              ),
-            ),
-            trailing: PopupMenuButton(
-              icon: const Icon(Icons.more_vert),
-              onSelected: (selectedAction) {},
-              itemBuilder: (_) => [
-                const PopupMenuItem(
-                  child: Text('Copy highlight text'),
-                  value: HighlightAction.CopyText,
+    final highlight = Provider.of<Highlight>(context, listen: false);
+    print(highlight.id);
+    return GestureDetector(
+      onTap: () {
+        showGeneralDialog(
+            context: context,
+            barrierDismissible: true,
+            barrierLabel: '',
+            pageBuilder: (ctx, _, __) {
+              return Center(
+                child: Container(
+                  height: MediaQuery.of(ctx).size.height / 2,
+                  width: MediaQuery.of(ctx).size.width,
+                  child: ChangeNotifierProvider.value(
+                    value: highlight,
+                    child: DetailedHighlightCard(),
+                  ),
                 ),
-                const PopupMenuItem(
-                  child: Text('Add Tag'),
-                  value: HighlightAction.AddTag,
-                ),
+              );
+            });
+      },
+      child: Dismissible(
+        key: ValueKey(highlight.id),
+        direction: DismissDirection.endToStart,
+        confirmDismiss: (direction) {
+          return showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: const Text('Are you sure?'),
+              content: const Text(
+                  'Do you want to completely remove this highlight?'),
+              actions: [
+                TextButton(
+                    child: const Text('No'),
+                    onPressed: () {
+                      Navigator.of(ctx).pop(false);
+                    }),
+                TextButton(
+                    child: const Text('Yes'),
+                    onPressed: () {
+                      Navigator.of(ctx).pop(true);
+                    }),
               ],
             ),
+          );
+        },
+        onDismissed: (direction) async {
+          await Provider.of<Highlights>(context, listen: false)
+              .deleteHighlight(highlight.id);
+        },
+        background: Container(
+          color: Theme.of(context).errorColor,
+          child: const Icon(
+            Icons.delete,
+            color: Colors.white,
+            size: 30,
           ),
-          Container(
-            padding: EdgeInsets.all(15),
-            child: Text(
-              data,
-              style: TextStyle(
-                fontSize: 20,
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.only(right: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+        ),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          elevation: 4,
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              HighlightCardTile(
+                highlight.titleName,
+                highlight.author,
               ),
-            ),
+              Container(
+                padding: EdgeInsets.all(15),
+                child: Text(
+                  highlight.data,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

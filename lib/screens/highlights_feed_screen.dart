@@ -46,10 +46,9 @@ class _HighlighsFeedScreenState extends State<HighlighsFeedScreen> {
           return Consumer<Highlights>(
             builder: (ctx, data, _) => ListView.builder(
               itemCount: data.highlights.length,
-              itemBuilder: (ctx, idx) => HighlightCard(
-                data.highlights[idx].id,
-                data.highlights[idx].titleName,
-                data.highlights[idx].data,
+              itemBuilder: (ctx, idx) => ChangeNotifierProvider.value(
+                value: data.highlights[idx],
+                child: HighlightCard(),
               ),
             ),
           );

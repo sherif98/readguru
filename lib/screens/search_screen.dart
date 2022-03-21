@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:readguru/screens/list_tags_screen.dart';
 import 'package:readguru/screens/list_titles_screen.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -56,7 +57,9 @@ class SearchScreen extends StatelessWidget {
           ),
         ),
         ListTile(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).pushNamed(ListTagsScreen.routeName);
+          },
           title: Card(
             elevation: 5,
             shape: RoundedRectangleBorder(

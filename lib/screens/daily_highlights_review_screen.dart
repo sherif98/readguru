@@ -62,10 +62,10 @@ class _DailyHighlightsReviewScreenState
                     maxHeight: 10,
                     maxWidth: width,
                     child: HighlightCard(
-                      _loadedHighlights[_index].id,
-                      _loadedHighlights[_index].titleName,
-                      _loadedHighlights[_index].data,
-                    ),
+                        // _loadedHighlights[_index].id,
+                        // _loadedHighlights[_index].titleName,
+                        // _loadedHighlights[_index].data,
+                        ),
                   ),
                   // return ListView.builder(
                   //   physics: PageScrollPhysics(),

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:readguru/providers/common.dart';
 
 class Title {
-  final String id;
+  int id;
   final String titleName;
   final String author;
 
@@ -19,19 +19,23 @@ class Titles with ChangeNotifier {
     return [..._titles];
   }
 
+  Title parseTitle(dynamic fetchedTitle) {
+    return Title(
+      id: fetchedTitle['id'],
+      titleName: fetchedTitle['titleName'],
+      author: fetchedTitle['author'],
+    );
+  }
+
   Future<void> fetchAndSetTitles() async {
     print('fetching titles Data');
-    var url = Uri.parse('$API_URL/title/1');
+    var url = Uri.parse('$API_URL/title');
     final response = await http.get(url);
     final fetchedData = json.decode(response.body) as List<dynamic>;
     print(fetchedData);
     final List<Title> loadedTitles = [];
     fetchedData.forEach((fetchedTitle) {
-      loadedTitles.add(Title(
-        id: fetchedTitle['id'],
-        titleName: fetchedTitle['titleName'],
-        author: fetchedTitle['author'],
-      ));
+      loadedTitles.add(parseTitle(fetchedTitle));
     });
     print(loadedTitles);
     _titles = loadedTitles;
@@ -39,11 +43,33 @@ class Titles with ChangeNotifier {
   }
 
   Future<void> addTitle(Title title) async {
-    var url = Uri.parse('$API_URL/title/1');
+    var url = Uri.parse('$API_URL/title');
     try {
-      final response = await http.post(url, body: json.encode(title.titleName));
+      final response = await http.post(url,
+          headers: {
+            "content-type": "application/json",
+            "accept": "application/json",
+          },
+          body: json.encode({
+            'titleName': title.titleName,
+            'author': title.author,
+            'cover': 'www',
+          }));
       print(response.body);
-      _titles.add(title);
+      final fetchedData = json.decode(response.body);
+      _titles.add(parseTitle(fetchedData));
+      notifyListeners();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> deleteTitle(int titleId) async {
+    var url = Uri.parse('$API_URL/title/$titleId');
+    try {
+      final response = await http.delete(url);
+      _titles.removeWhere((element) => element.id == titleId);
+      print(response.body);
       notifyListeners();
     } catch (error) {
       print(error);
