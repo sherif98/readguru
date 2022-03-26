@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:readguru/providers/auth.dart';
 import 'package:readguru/providers/highlight.dart';
 import 'package:readguru/widgets/highlight_card_tile.dart';
 import 'package:readguru/widgets/tag_chip.dart';
@@ -18,6 +19,7 @@ class _DetailedHighlightCardState extends State<DetailedHighlightCard> {
   @override
   Widget build(BuildContext context) {
     final highlight = Provider.of<Highlight>(context, listen: false);
+    final token = Provider.of<Auth>(context, listen: false).token;
     print(highlight.isFavorite);
     return Card(
       shape: RoundedRectangleBorder(
@@ -55,7 +57,7 @@ class _DetailedHighlightCardState extends State<DetailedHighlightCard> {
                       ? Icons.favorite
                       : Icons.favorite_border),
                   onPressed: () {
-                    highlight.toggleFavoriteStatus();
+                    highlight.toggleFavoriteStatus(token);
                   },
                 ),
               ),

@@ -7,7 +7,11 @@ import 'package:readguru/providers/highlight.dart';
 import 'package:readguru/providers/tags.dart';
 
 class Highlights with ChangeNotifier {
+  final String _token;
+
   List<Highlight> _highlights = [];
+
+  Highlights(this._token);
 
   List<Highlight> get highlights {
     if (_highlights.isEmpty) fetchAndSetHighlights();
@@ -17,7 +21,9 @@ class Highlights with ChangeNotifier {
   Future<void> fetchAndSetHighlights() async {
     print('fetchingData');
     var url = Uri.parse('$API_URL/highlight');
-    final response = await http.get(url);
+    final response = await http.get(url, headers: {
+      'Authorization': _token,
+    });
     print(response.body);
     final fetchedData = json.decode(response.body) as List<dynamic>;
     print(fetchedData);
@@ -36,28 +42,6 @@ class Highlights with ChangeNotifier {
         .map((t) => t.id)
         .toList()
         .cast<String>();
-    // final List<String> tags = [
-    //   "one",
-    //   "two",
-    //   "three",
-    //   "four",
-    //   "five",
-    //   "one",
-    //   "two",
-    // "three",
-    // "four",
-    // "five",
-    // "one",
-    // "two",
-    // "three",
-    // "four",
-    // "five",
-    // "one",
-    // "two",
-    // "three",
-    // "four",
-    // "five"
-    // ];
     return Highlight(
       id: fetchedHighlight['id'],
       titleName: fetchedHighlight['title']['titleName'],
@@ -91,7 +75,7 @@ class Highlights with ChangeNotifier {
     }
   }
 
-  // TODO remove to highlight.dart
+  // TODO move to highlight.dart?
   Future<void> deleteHighlight(int highlightId) async {
     var url = Uri.parse('$API_URL/highlight/$highlightId');
     try {

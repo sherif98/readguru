@@ -13,6 +13,10 @@ class Title {
 }
 
 class Titles with ChangeNotifier {
+  final String _token;
+
+  Titles(this._token);
+
   List<Title> _titles = [];
 
   List<Title> get titles {

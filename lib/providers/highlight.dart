@@ -41,7 +41,7 @@ class Highlight with ChangeNotifier {
     );
   }
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String token) async {
     var url = Uri.parse('$API_URL/highlight/$id/favorite');
     await http.patch(url);
     print('highlight favorite toggled');

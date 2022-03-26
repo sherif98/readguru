@@ -20,6 +20,10 @@ class Tag {
 }
 
 class Tags with ChangeNotifier {
+  final String _token;
+
+  Tags(this._token);
+
   List<Tag> _tags = [];
 
   List<Tag> get tags {
