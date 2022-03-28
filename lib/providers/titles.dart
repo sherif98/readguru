@@ -34,7 +34,9 @@ class Titles with ChangeNotifier {
   Future<void> fetchAndSetTitles() async {
     print('fetching titles Data');
     var url = Uri.parse('$API_URL/title');
-    final response = await http.get(url);
+    final response = await http.get(url, headers: {
+      'Authorization': _token,
+    });
     final fetchedData = json.decode(response.body) as List<dynamic>;
     print(fetchedData);
     final List<Title> loadedTitles = [];
@@ -53,6 +55,7 @@ class Titles with ChangeNotifier {
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
+            'Authorization': _token,
           },
           body: json.encode({
             'titleName': title.titleName,
@@ -71,7 +74,9 @@ class Titles with ChangeNotifier {
   Future<void> deleteTitle(int titleId) async {
     var url = Uri.parse('$API_URL/title/$titleId');
     try {
-      final response = await http.delete(url);
+      final response = await http.delete(url, headers: {
+        'Authorization': _token,
+      });
       _titles.removeWhere((element) => element.id == titleId);
       print(response.body);
       notifyListeners();

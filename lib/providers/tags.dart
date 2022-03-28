@@ -37,7 +37,9 @@ class Tags with ChangeNotifier {
   Future<void> fetchTags() async {
     print('fetching tags Data');
     var url = Uri.parse('$API_URL/tag');
-    final response = await http.get(url);
+    final response = await http.get(url, headers: {
+      'Authorization': _token,
+    });
     final fetchedData = json.decode(response.body) as List<dynamic>;
     final List<Tag> loadedTags = [];
     fetchedData.forEach((fetchedTag) {
@@ -52,7 +54,9 @@ class Tags with ChangeNotifier {
   Future<void> deleteTag(String tagId) async {
     var url = Uri.parse('$API_URL/tag/$tagId');
     try {
-      final response = await http.delete(url);
+      final response = await http.delete(url, headers: {
+        'Authorization': _token,
+      });
       _tags.removeWhere((element) => element.id == tagId);
       print(response.body);
       notifyListeners();

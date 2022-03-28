@@ -19,11 +19,12 @@ class Highlights with ChangeNotifier {
   }
 
   Future<void> fetchAndSetHighlights() async {
-    print('fetchingData');
+    print('fetchAndSetHighlights()');
     var url = Uri.parse('$API_URL/highlight');
     final response = await http.get(url, headers: {
       'Authorization': _token,
     });
+    print(response.statusCode);
     print(response.body);
     final fetchedData = json.decode(response.body) as List<dynamic>;
     print(fetchedData);
@@ -33,6 +34,7 @@ class Highlights with ChangeNotifier {
     });
     _highlights = loadedHighlights;
     print(_highlights);
+    // TODO empty highlights causes infinite rescursive calls
     notifyListeners();
   }
 
@@ -61,6 +63,7 @@ class Highlights with ChangeNotifier {
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
+            'Authorization': _token,
           },
           body: json.encode({
             'highlightText': highlight.data,
@@ -79,7 +82,9 @@ class Highlights with ChangeNotifier {
   Future<void> deleteHighlight(int highlightId) async {
     var url = Uri.parse('$API_URL/highlight/$highlightId');
     try {
-      final response = await http.delete(url);
+      final response = await http.delete(url, headers: {
+        'Authorization': _token,
+      });
       print(response.body);
       _highlights.removeWhere((element) => element.id == highlightId);
       notifyListeners();
@@ -92,7 +97,9 @@ class Highlights with ChangeNotifier {
   Future<List<Highlight>> fetchDailyReviewHighlights() async {
     var url = Uri.parse('$API_URL/highlights/1/daily');
     try {
-      final response = await http.get(url);
+      final response = await http.get(url, headers: {
+        'Authorization': _token,
+      });
       print(response.body);
       final fetchedData = json.decode(response.body) as List<dynamic>;
       print('here');
@@ -123,7 +130,9 @@ class Highlights with ChangeNotifier {
 
     var url = Uri.parse('$API_URL/highlight?titleq=$titleId');
     try {
-      final response = await http.get(url);
+      final response = await http.get(url, headers: {
+        'Authorization': _token,
+      });
       print(response.body);
       final fetchedData = json.decode(response.body) as List<dynamic>;
       print(fetchedData);
@@ -145,7 +154,9 @@ class Highlights with ChangeNotifier {
 
     var url = Uri.parse('$API_URL/highlight?tagq=$tagId');
     try {
-      final response = await http.get(url);
+      final response = await http.get(url, headers: {
+        'Authorization': _token,
+      });
       print(response.body);
       final fetchedData = json.decode(response.body) as List<dynamic>;
       print(fetchedData);

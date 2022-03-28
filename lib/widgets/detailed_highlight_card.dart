@@ -66,7 +66,7 @@ class _DetailedHighlightCardState extends State<DetailedHighlightCard> {
                 onPressed: () async {
                   String? tagName = await getInputTag();
                   if (tagName != null) {
-                    highlight.tagHighlight(tagName);
+                    highlight.tagHighlight(tagName, token);
                   }
                 },
               ),
@@ -79,7 +79,7 @@ class _DetailedHighlightCardState extends State<DetailedHighlightCard> {
                   .map((t) => TagChip(
                         t,
                         onTagDeleted: (tagId) {
-                          highlight.unTagHighlight(tagId);
+                          highlight.unTagHighlight(tagId, token);
                         },
                       ))
                   .toList(),

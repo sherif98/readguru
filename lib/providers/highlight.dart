@@ -43,18 +43,21 @@ class Highlight with ChangeNotifier {
 
   Future<void> toggleFavoriteStatus(String token) async {
     var url = Uri.parse('$API_URL/highlight/$id/favorite');
-    await http.patch(url);
+    await http.patch(url, headers: {
+      'Authorization': token,
+    });
     print('highlight favorite toggled');
     isFavorite = !isFavorite;
     notifyListeners();
   }
 
-  Future<void> unTagHighlight(String tagId) async {
+  Future<void> unTagHighlight(String tagId, String token) async {
     var url = Uri.parse('$API_URL/highlight/$id/tag');
     final response = await http.delete(url,
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
+          'Authorization': token,
         },
         body: json.encode({
           'tag': tagId,
@@ -66,12 +69,13 @@ class Highlight with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> tagHighlight(String tagId) async {
+  Future<void> tagHighlight(String tagId, String token) async {
     var url = Uri.parse('$API_URL/highlight/$id/tag');
     final response = await http.post(url,
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
+          'Authorization': token,
         },
         body: json.encode({
           'tag': tagId,
