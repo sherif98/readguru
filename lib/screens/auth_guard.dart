@@ -32,6 +32,10 @@ class _AuthGuardState extends State<AuthGuard> {
             },
             providerConfigs: [
               EmailProviderConfiguration(),
+              GoogleProviderConfiguration(
+                clientId:
+                    '772176440591-1e75eqoaorc06eh561bv55vbs4g0u6pl.apps.googleusercontent.com',
+              ),
             ],
           );
         }
