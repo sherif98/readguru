@@ -30,29 +30,12 @@ class Highlights with ChangeNotifier {
     print(fetchedData);
     final List<Highlight> loadedHighlights = [];
     fetchedData.forEach((fetchedHighlight) {
-      loadedHighlights.add(parseHighlight(fetchedHighlight));
+      loadedHighlights.add(Highlight.fromJson(fetchedHighlight));
     });
     _highlights = loadedHighlights;
     print(_highlights);
     // TODO empty highlights causes infinite rescursive calls
     notifyListeners();
-  }
-
-  Highlight parseHighlight(dynamic fetchedHighlight) {
-    final List<String> tags = fetchedHighlight['tags']
-        .map((t) => Tag.fromJson(t))
-        .map((t) => t.id)
-        .toList()
-        .cast<String>();
-    return Highlight(
-      id: fetchedHighlight['id'],
-      titleName: fetchedHighlight['title']['titleName'],
-      titleId: fetchedHighlight['titleId'],
-      data: fetchedHighlight['highlightText'],
-      author: fetchedHighlight['title']['author'],
-      tags: tags,
-      isFavorite: fetchedHighlight['favorite'],
-    );
   }
 
   Future<void> addHighlight(Highlight highlight) async {
@@ -70,7 +53,7 @@ class Highlights with ChangeNotifier {
           }));
       print(response.body);
       final fetchedData = json.decode(response.body);
-      _highlights.add(parseHighlight(fetchedData));
+      _highlights.add(Highlight.fromJson(fetchedData));
       notifyListeners();
       print(_highlights);
     } catch (error) {
@@ -138,7 +121,7 @@ class Highlights with ChangeNotifier {
       print(fetchedData);
       final List<Highlight> loadedHighlights = [];
       fetchedData.forEach((fetchedHighlight) {
-        loadedHighlights.add(parseHighlight(fetchedHighlight));
+        loadedHighlights.add(Highlight.fromJson(fetchedHighlight));
       });
       notifyListeners();
       return loadedHighlights;
@@ -162,7 +145,7 @@ class Highlights with ChangeNotifier {
       print(fetchedData);
       final List<Highlight> loadedHighlights = [];
       fetchedData.forEach((fetchedHighlight) {
-        loadedHighlights.add(parseHighlight(fetchedHighlight));
+        loadedHighlights.add(Highlight.fromJson(fetchedHighlight));
       });
       notifyListeners();
       return loadedHighlights;

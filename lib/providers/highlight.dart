@@ -33,9 +33,9 @@ class Highlight with ChangeNotifier {
     return Highlight(
       id: parsedJson['id'],
       titleName: parsedJson['title']['titleName'],
-      titleId: parsedJson['titleId'],
-      data: parsedJson['highlightText'],
+      titleId: parsedJson['title']['id'],
       author: parsedJson['title']['author'],
+      data: parsedJson['highlightText'],
       tags: tags,
       isFavorite: parsedJson['favorite'],
     );
